@@ -44,7 +44,7 @@ export default function Home() {
           className="w-96 rounded-md text-white bg-blue-400 px-6 py-2 hover:bg-blue-600"
           onClick={createAndJoin}
         >
-          {" "}
+          {" "} 
           Create a New Room
         </button>
       </div>
