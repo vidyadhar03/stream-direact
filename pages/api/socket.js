@@ -1,15 +1,18 @@
 import { Server } from "socket.io"
 
-export const SocketInitApi=(req,res)=>{
+const SocketInitApi=(req,res)=>{
+    console.log("called socket init api");
     if(res.socket.server.io){
         console.log("server exists!");
     }else{
         const io= new Server(res.socket.server)
-        res.socket.server=io
+        res.socket.server.io=io
 
         io.on('connection',(socket)=>{
-            console.log("New server connected!");
+            console.log("New server connected!");   
         })
     }
     res.end();
 }
+
+export default SocketInitApi;

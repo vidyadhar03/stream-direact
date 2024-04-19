@@ -1,6 +1,11 @@
 import "@/styles/globals.css";
 
+import { SocketProvider } from "@/context/socket";
+
 export default function App({ Component, pageProps }) {
-  return <div>why tho</div>;
-  // return <Component {...pageProps} />;
+  return (
+    <SocketProvider>
+      <Component {...pageProps} />
+    </SocketProvider>
+  );
 }
