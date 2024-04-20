@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { cloneDeep } from "lodash";
 import Bottom from "@/components/Bottom";
+import CopySection from "@/components/CopySection";
 
 const room = () => {
   const socket = useSocket();
@@ -21,9 +22,9 @@ const room = () => {
     toggleAudio,
     toggleVideo,
     leaveRoom,
-  } = usePlayer(myId, roomId,peer);
+  } = usePlayer(myId, roomId, peer);
 
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     if (!socket || !peer || !stream) return;
@@ -45,11 +46,10 @@ const room = () => {
           },
         }));
 
-        setUsers((prev)=>({
+        setUsers((prev) => ({
           ...prev,
-          [newUser]: call
-        }))
-
+          [newUser]: call,
+        }));
       });
     };
 
@@ -114,11 +114,10 @@ const room = () => {
           },
         }));
 
-        setUsers((prev)=>({
+        setUsers((prev) => ({
           ...prev,
-          [callerId]: call
-        }))
-
+          [callerId]: call,
+        }));
       });
     });
   }, [peer, stream, setPlayers]);
@@ -143,37 +142,38 @@ const room = () => {
 
   return (
     <>
-      <div className="absolute w-9/12 left-0 right-0 mx-auto">
-        {playerHighlighted && (
-          <Player
-            url={playerHighlighted.url}
-            muted={playerHighlighted.muted}
-            playing={playerHighlighted.playing}
-            isActive={true}
-          />
-        )}
-      </div>
-      <div className="absolute flex flex-col overflow-y-auto">
-        {Object.keys(nonHighlightedPlayers).map((playerId) => {
-          const { url, muted, playing } = nonHighlightedPlayers[playerId];
-          return (
+        <div className="absolute w-9/12 left-0 right-0 mx-auto">
+          {playerHighlighted && (
             <Player
-              key={playerId}
-              url={stream}
-              muted={muted}
-              playing={playing}
-              isActive={false}
+              url={playerHighlighted.url}
+              muted={playerHighlighted.muted}
+              playing={playerHighlighted.playing}
+              isActive={true}
             />
-          );
-        })}
-      </div>
-      <Bottom
-        muted={playerHighlighted?.muted}
-        playing={playerHighlighted?.playing}
-        toggleAudio={toggleAudio}
-        toggleVideo={toggleVideo}
-        leaveRoom={leaveRoom}
-      />
+          )}
+        </div>
+        <div className="absolute flex flex-col overflow-y-auto">
+          {Object.keys(nonHighlightedPlayers).map((playerId) => {
+            const { url, muted, playing } = nonHighlightedPlayers[playerId];
+            return (
+              <Player
+                key={playerId}
+                url={stream}
+                muted={muted}
+                playing={playing}
+                isActive={false}
+              />
+            );
+          })}
+        </div>
+        <CopySection roomId={roomId} />
+        <Bottom
+          muted={playerHighlighted?.muted}
+          playing={playerHighlighted?.playing}
+          toggleAudio={toggleAudio}
+          toggleVideo={toggleVideo}
+          leaveRoom={leaveRoom}
+        />
     </>
   );
 };
