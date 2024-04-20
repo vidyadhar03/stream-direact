@@ -1,5 +1,5 @@
 import ReactPlayer from "react-player";
-
+import { Mic, MicOff, UserSquare2 } from "lucide-react";
 import cx from "classnames";
 
 import styles from "@/components/Player/index.module.css";
@@ -14,13 +14,25 @@ const Player = (props) => {
         [styles.notPlaying]: !playing,
       })}
     >
-      <ReactPlayer
-        muted={muted}
-        url={url}
-        playing={playing}
-        width="100%"
-        height="100%"
-      />
+      {playing ? (
+        <ReactPlayer
+          url={url}
+          muted={muted}
+          playing={playing}
+          width="100%"
+          height="100%"
+        />
+      ) : (
+        <UserSquare2 className={styles.user} size={isActive ? 400 : 150} />
+      )}
+
+      {!isActive ? (
+        muted ? (
+          <MicOff className={styles.icon} size={20} />
+        ) : (
+          <Mic className={styles.icon} size={20} />
+        )
+      ) : undefined}
     </div>
   );
 };
